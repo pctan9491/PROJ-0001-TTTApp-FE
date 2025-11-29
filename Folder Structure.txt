@@ -1,0 +1,29 @@
+lib/
+├── core/                       # Core functionality shared across the app
+│   ├── config/                 # Environment config, routes, dependencies injection
+│   ├── constants/              # Strings, assets paths, API endpoints
+│   ├── error/                  # Custom exceptions and failure classes
+│   ├── services/               # External services (Storage, Network Client, Analytics)
+│   ├── theme/                  # App theme, colors, typography
+│   ├── utils/                  # Helper functions (Date formatting, Validators)
+│   └── widgets/                # Generic reusable widgets (Buttons, TextFields, Loaders)
+├── features/                   # Business logic organized by feature
+│   ├── tasks/                  # FEATURE: Task Management
+│   │   ├── data/               # Data Layer
+│   │   │   ├── datasources/    # Remote/Local data sources
+│   │   │   ├── models/         # DTOs (Data Transfer Objects) extending Entities
+│   │   │   └── repositories/   # Implementation of Domain Repositories
+│   │   ├── domain/             # Domain Layer (Business Rules)
+│   │   │   ├── entities/       # Plain Dart Objects (The core data)
+│   │   │   ├── repositories/   # Abstract interfaces for repositories
+│   │   │   └── usecases/       # Single actions (e.g., GetTasks, AddTask)
+│   │   └── presentation/       # Presentation Layer (UI)
+│   │       ├── bloc/           # State Management (Bloc/Cubit/Provider)
+│   │       ├── pages/          # Full screen views
+│   │       └── widgets/        # Feature-specific widgets
+│   ├── targets/                # FEATURE: Targeting/Goals
+│   │   └── ... (same structure as tasks)
+│   └── settings/               # FEATURE: App Settings
+│       └── ...
+├── app.dart                    # Root Widget (MaterialApp setup)
+└── main.dart                   # Entry point
