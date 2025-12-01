@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'features/auth/presentation/pages/login_page.dart';
 
 class ToDoApp extends StatelessWidget {
   const ToDoApp({super.key});
@@ -12,15 +13,7 @@ class ToDoApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 66, 132, 100)),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('ToDo Target App'),
-          centerTitle: false,
-        ),
-        body: const Center(
-          child: Text('Architecture Ready! Implement Features in lib/features'),
-        ),
-      ),
+      home: const LoginPage(),
     );
   }
 }
