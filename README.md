@@ -1,6 +1,8 @@
 # todo_targeting_app
 
 A new Flutter project.
+- Project Report: https://wc2py42wzet.sg.larksuite.com/wiki/Ff5pwdASDilOMZkqtQslf3Ceg82
+- Test Case: https://docs.google.com/spreadsheets/d/1jTvkC2mukHoRCENT4_uY7fcLROCZMRVmsRLOCahwAXc/edit?gid=0#gid=0
 
 ## Getting Started
 
