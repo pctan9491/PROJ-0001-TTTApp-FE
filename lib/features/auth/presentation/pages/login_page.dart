@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   // Keys for identifying widgets in tests or inspector
   static const Key emailFieldKey = Key('email_field');
   static const Key passwordFieldKey = Key('password_field');
+  static const Key googleLoginKey = Key('google_login_button');
   static const Key loginButtonKey = Key('login_button');
   static const Key signUpLinkKey = Key('sign_up_link');
 
@@ -79,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       children: [
         const Text(
-          'Welcome Back',
+          'Welcome!!!',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 30,
@@ -89,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Sign in to your account',
+          'Welcome to your to-do targeting app! Sign in to your account to proceed.',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.grey[300],
@@ -272,6 +274,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         OutlinedButton(
+          key: googleLoginKey,
           onPressed: () {
              // TODO: Google Sign In
           },
@@ -293,7 +296,11 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: const Text('G', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue, fontSize: 16)),
+                child: const FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.red,
+                  size: 14,
+                ),
               ),
               const SizedBox(width: 12),
               const Text(
