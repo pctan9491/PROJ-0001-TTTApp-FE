@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isObscure = true;
 
   // Design Colors
-  static const Color _primaryColor = Color(0xFF01344F);
+  //static const Color _primaryColor = Color(0xFF01344F);
   static const Color _accentColor = Color(0xFFFAE3AC);
 
   // Keys for identifying widgets in tests or inspector
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _primaryColor,
+      //backgroundColor: _primaryColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -119,24 +120,8 @@ class _LoginPageState extends State<LoginPage> {
           key: emailFieldKey,
           controller: _emailController,
           style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Enter your email',
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.1),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: _accentColor),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
@@ -171,7 +156,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
             GestureDetector(
               onTap: () {
-                // TODO: Handle forgot password
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                );
               },
               child: const Text(
                 'Forgot password?',
@@ -191,22 +179,6 @@ class _LoginPageState extends State<LoginPage> {
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Enter your password',
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.1),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: _accentColor),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             suffixIcon: IconButton(
               icon: Icon(
                 _isObscure ? Icons.visibility_off : Icons.visibility,
@@ -240,15 +212,6 @@ class _LoginPageState extends State<LoginPage> {
       child: ElevatedButton(
         key: loginButtonKey,
         onPressed: _login,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _accentColor,
-          foregroundColor: _primaryColor,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          elevation: 0,
-        ),
         child: const Text(
           'Sign In',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
