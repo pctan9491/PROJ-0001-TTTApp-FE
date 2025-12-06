@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'reset_password.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -25,6 +26,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       // TODO: Implement actual password reset logic here
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Password reset link sent!')),
+      );
+      //Navigate to Reset Password Page
+      Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
       );
       // Optional: Navigate back to login or show success screen
     }
