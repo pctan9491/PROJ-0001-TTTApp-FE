@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../../core/config/app_config.dart';
+import '../../../experimental/presentation/pages/experimental.dart';
 import '../../../home/presentation/pages/main_page.dart';
 import 'forgot_password_page.dart';
 import 'registration_page.dart';
@@ -53,33 +55,58 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       //backgroundColor: _primaryColor,
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildHeader(context),
-                    const SizedBox(height: 40),
-                    _buildEmailField(),
-                    const SizedBox(height: 24),
-                    _buildPasswordField(),
-                    const SizedBox(height: 24),
-                    _buildLoginButton(),
-                    _buildSocialLogin(),
-                    const SizedBox(height: 24),
-                    _buildSignUpLink(),
-                  ],
+        child: Stack(
+          children: [
+            Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _buildHeader(context),
+                        const SizedBox(height: 40),
+                        _buildEmailField(),
+                        const SizedBox(height: 24),
+                        _buildPasswordField(),
+                        const SizedBox(height: 24),
+                        _buildLoginButton(),
+                        _buildSocialLogin(),
+                        const SizedBox(height: 24),
+                        _buildSignUpLink(),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+            _buildExperimentalFab(context),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildExperimentalFab(BuildContext context) {
+    if (!AppConfig.isExperimentalFeatureVisible) {
+      return const SizedBox.shrink();
+    }
+    return Positioned(
+      right: 16,
+      bottom: 16,
+      child: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ExperimentalPage()),
+          );
+        },
+        backgroundColor: Colors.red,
+        child: const Icon(FontAwesomeIcons.flask, color: Colors.white),
       ),
     );
   }
@@ -199,6 +226,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           obscureText: _isObscure,
           validator: (value) {
+            if (AppConfig.bypassLoginValidation) return null; // Bypass validation
             if (value == null || value.isEmpty) {
               return 'Please enter your password';
             }
