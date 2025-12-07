@@ -273,6 +273,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _buildRegisterButton() {
     return SizedBox(
+      key: registerButtonKey,
       width: double.infinity,
       child: ElevatedButton(
         onPressed: _register,
