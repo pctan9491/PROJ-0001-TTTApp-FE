@@ -33,14 +33,21 @@ class AppConfig {
   static bool _enableAllExperiments = false;
   static bool get enableAllExperiments => _enableAllExperiments;
 
+  // Registry of experiment setters controlled by the master toggle
+  static final List<Future<void> Function(bool)> _experimentSetters = [
+    setExperiment1BypassLoginValidation,
+    // Add new experiment setters here
+  ];
+
   static Future<void> setEnableAllExperiments(bool value) async {
     _enableAllExperiments = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyEnableAllExperiments, value);
 
     // Force all experiments to match the master toggle state
-    await setExperiment1BypassLoginValidation(value);
-    // Add for future experiments
+    for (final setter in _experimentSetters) {
+      await setter(value);
+    }
   }
 
   // --- EXPERIMENT A: Bypass Login Validation ---
