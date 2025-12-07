@@ -1,44 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'forgot_password_page.dart';
-import 'registration_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isObscure = true;
-
-  // Design Colors
-  //static const Color _primaryColor = Color(0xFF01344F);
-  //static const Color _accentColor = Color(0xFFFAE3AC);
+  final _confirmPasswordController = TextEditingController();
+  bool _isObscurePassword = true;
+  bool _isObscureConfirm = true;
 
   // Keys for identifying widgets in tests or inspector
+  static const Key nameFieldKey = Key('name_field');
   static const Key emailFieldKey = Key('email_field');
   static const Key passwordFieldKey = Key('password_field');
-  static const Key googleLoginKey = Key('google_login_button');
-  static const Key loginButtonKey = Key('login_button');
-  static const Key signUpLinkKey = Key('sign_up_link');
+  static const Key confirmPasswordFieldKey = Key('confirm_password_field');
+  static const Key registerButtonKey = Key('register_button');
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  void _login() {
+  void _register() {
     if (_formKey.currentState!.validate()) {
-      // TODO: Implement actual login logic here
+      // TODO: Implement actual registration logic here
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Login...')),
+        const SnackBar(content: Text('Processing Registration...')),
       );
     }
   }
@@ -46,35 +45,41 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: _primaryColor,
+      // AppBar with back button
+      appBar: AppBar(),
       body: SafeArea(
         child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildHeader(context),
-                    const SizedBox(height: 40),
-                    _buildEmailField(),
-                    const SizedBox(height: 24),
-                    _buildPasswordField(),
-                    const SizedBox(height: 24),
-                    _buildLoginButton(),
-                    _buildSocialLogin(),
-                    const SizedBox(height: 24),
-                    _buildSignUpLink(),
-                  ],
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 60), // Space for back button
+                        _buildHeader(context),
+                        const SizedBox(height: 32),
+                        _buildNameField(),
+                        const SizedBox(height: 16),
+                        _buildEmailField(),
+                        const SizedBox(height: 16),
+                        _buildPasswordField(),
+                        const SizedBox(height: 16),
+                        _buildConfirmPasswordField(),
+                        const SizedBox(height: 24),
+                        _buildRegisterButton(),
+                        _buildSocialLogin(),
+                        const SizedBox(height: 24),
+                        _buildSignInLink(),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
       ),
     );
   }
@@ -83,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       children: [
         const Text(
-          'Welcome!!!',
+          'Create Account',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 30,
@@ -93,12 +98,44 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Welcome to your to-do targeting app! Sign in to your account to proceed.',
+          'Join us to start targeting your to-dos effectively!',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.grey[300],
             fontSize: 16,
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNameField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Full Name',
+          style: TextStyle(
+            color: Colors.grey[300],
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _nameController,
+          key: nameFieldKey,
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            hintText: 'Enter your full name',
+          ),
+          textInputAction: TextInputAction.next,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your name';
+            }
+            return null;
+          },
         ),
       ],
     );
@@ -118,8 +155,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 8),
         TextFormField(
-          key: emailFieldKey,
           controller: _emailController,
+          key: emailFieldKey,
           style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(
             hintText: 'Enter your email',
@@ -144,58 +181,38 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Password',
-              style: TextStyle(
-                color: Colors.grey[300],
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
-                );
-              },
-              child: Text(
-                'Forgot password?',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
+        Text(
+          'Password',
+          style: TextStyle(
+            color: Colors.grey[300],
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         const SizedBox(height: 8),
         TextFormField(
-          key: passwordFieldKey,
           controller: _passwordController,
+          key: passwordFieldKey,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Enter your password',
             suffixIcon: IconButton(
               icon: Icon(
-                _isObscure ? Icons.visibility_off : Icons.visibility,
+                _isObscurePassword ? Icons.visibility_off : Icons.visibility,
               ),
               color: Colors.grey[300],
               onPressed: () {
                 setState(() {
-                  _isObscure = !_isObscure;
+                  _isObscurePassword = !_isObscurePassword;
                 });
               },
             ),
           ),
-          obscureText: _isObscure,
+          obscureText: _isObscurePassword,
+          textInputAction: TextInputAction.next,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter your password';
+              return 'Please enter a password';
             }
             if (value.length < 6) {
               return 'Password must be at least 6 characters';
@@ -207,14 +224,60 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildConfirmPasswordField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Confirm Password',
+          style: TextStyle(
+            color: Colors.grey[300],
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _confirmPasswordController,
+          key: confirmPasswordFieldKey,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: 'Re-enter your password',
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isObscureConfirm ? Icons.visibility_off : Icons.visibility,
+              ),
+              color: Colors.grey[300],
+              onPressed: () {
+                setState(() {
+                  _isObscureConfirm = !_isObscureConfirm;
+                });
+              },
+            ),
+          ),
+          obscureText: _isObscureConfirm,
+          textInputAction: TextInputAction.done,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please confirm your password';
+            }
+            if (value != _passwordController.text) {
+              return 'Passwords do not match';
+            }
+            return null;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRegisterButton() {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        key: loginButtonKey,
-        onPressed: _login,
+        onPressed: _register,
         child: const Text(
-          'Sign In',
+          'Sign Up',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
@@ -225,7 +288,7 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           child: Row(
             children: [
               Expanded(child: Divider(color: Colors.white.withOpacity(0.2))),
@@ -238,9 +301,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         OutlinedButton(
-          key: googleLoginKey,
           onPressed: () {
-             // TODO: Google Sign In
+             // TODO: Google Sign Up
           },
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.white.withOpacity(0.3)),
@@ -251,7 +313,6 @@ class _LoginPageState extends State<LoginPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Simple G placeholder
               Container(
                 width: 24,
                 height: 24,
@@ -268,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(width: 12),
               const Text(
-                'Sign in with Google',
+                'Sign up with Google',
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ],
@@ -278,19 +339,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildSignUpLink() {
+  Widget _buildSignInLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't have an account? ", style: TextStyle(color: Colors.grey[400])),
+        Text("Already have an account? ", style: TextStyle(color: Colors.grey[400])),
         GestureDetector(
-          key: signUpLinkKey,
           onTap: () {
-             // TODO: Navigate to registration page
-             Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationPage(),));
+            Navigator.of(context).pop();
           },
           child: Text(
-            'Sign Up',
+            'Sign In',
             style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w500,
