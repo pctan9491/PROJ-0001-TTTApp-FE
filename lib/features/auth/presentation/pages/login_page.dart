@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../home/presentation/pages/main_page.dart';
 import 'forgot_password_page.dart';
 import 'registration_page.dart';
 
@@ -39,6 +40,10 @@ class _LoginPageState extends State<LoginPage> {
       // TODO: Implement actual login logic here
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Processing Login...')),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
       );
     }
   }

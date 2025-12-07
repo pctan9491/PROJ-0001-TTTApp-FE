@@ -11,6 +11,7 @@ class ToDoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFF01344F),
+        canvasColor: const Color(0xFF01344F), // Match scaffold background for BottomNavigationBar
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 66, 132, 100),
           secondary: const Color(0xFFFAE3AC),
@@ -49,6 +50,9 @@ class ToDoApp extends StatelessWidget {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.white),
           centerTitle: true,
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          unselectedItemColor: Colors.grey[400],
         ),
       ),
       home: const LoginPage(),

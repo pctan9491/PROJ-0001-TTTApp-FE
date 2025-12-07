@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../home/presentation/pages/main_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -38,6 +39,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
       // TODO: Implement actual registration logic here
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Processing Registration...')),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
       );
     }
   }
