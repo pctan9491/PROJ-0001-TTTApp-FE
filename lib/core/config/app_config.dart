@@ -40,11 +40,12 @@ class AppConfig {
 
     // Force all experiments to match the master toggle state
     await setExperiment1BypassLoginValidation(value);
+    // Add for future experiments
   }
 
   // --- EXPERIMENT A: Bypass Login Validation ---
   static bool _experiment1BypassLoginValidation = false;
-  static bool get experiment1BypassLoginValidation => _enableAllExperiments && _experiment1BypassLoginValidation;
+  static bool get experiment1BypassLoginValidation => _experiment1BypassLoginValidation;
 
   static Future<void> setExperiment1BypassLoginValidation(bool value) async {
     _experiment1BypassLoginValidation = value;

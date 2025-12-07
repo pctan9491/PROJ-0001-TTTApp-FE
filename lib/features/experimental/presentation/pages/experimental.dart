@@ -69,18 +69,15 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
   }
 
   Widget _buildBypassLoginExperiment() {
-    final bool isEnabled = AppConfig.enableAllExperiments;
     return ExperimentToggle(
-        title:  'Bypass Login Validation',
-        subtitle: 'Allows logging in with any password (dev only)',
-        value: AppConfig.experiment1BypassLoginValidation,
-        onChanged: isEnabled
-            ? (bool value) {
-                setState(() {
-                  AppConfig.setExperiment1BypassLoginValidation(value);
-                });
-              }
-            : null,
+      title: 'Bypass Login Validation',
+      subtitle: 'Allows logging in with any password (dev only)',
+      value: AppConfig.experiment1BypassLoginValidation,
+      onChanged: (bool value) {
+        setState(() {
+          AppConfig.setExperiment1BypassLoginValidation(value);
+        });
+      },
     );
   }
 }
