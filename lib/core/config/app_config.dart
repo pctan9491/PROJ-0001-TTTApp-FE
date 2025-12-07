@@ -27,10 +27,24 @@ class AppConfig {
 
   // Persistence Keys
   static const String _keyBypassLoginValidation = 'exp_bypass_login_validation';
+  static const String _keyEnableAllExperiments = 'exp_enable_all_experiments';
+
+  // --- Master Toggle ---
+  static bool _enableAllExperiments = false;
+  static bool get enableAllExperiments => _enableAllExperiments;
+
+  static Future<void> setEnableAllExperiments(bool value) async {
+    _enableAllExperiments = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyEnableAllExperiments, value);
+
+    // Force all experiments to match the master toggle state
+    await setExperiment1BypassLoginValidation(value);
+  }
 
   // --- EXPERIMENT A: Bypass Login Validation ---
   static bool _experiment1BypassLoginValidation = false;
-  static bool get experiment1BypassLoginValidation => _experiment1BypassLoginValidation;
+  static bool get experiment1BypassLoginValidation => _enableAllExperiments && _experiment1BypassLoginValidation;
 
   static Future<void> setExperiment1BypassLoginValidation(bool value) async {
     _experiment1BypassLoginValidation = value;
@@ -45,6 +59,7 @@ class AppConfig {
 
   static Future<void> initialize() async {
     final prefs = await SharedPreferences.getInstance();
+    _enableAllExperiments = prefs.getBool(_keyEnableAllExperiments) ?? true;
     _experiment1BypassLoginValidation = prefs.getBool(_keyBypassLoginValidation) ?? false;
     // Load future experiments here...
   }

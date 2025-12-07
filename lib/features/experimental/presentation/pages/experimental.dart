@@ -12,7 +12,8 @@ class ExperimentToggle extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool value;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged; // Changed to nullable
+  final Color? activeColor;
 
   const ExperimentToggle({
     super.key,
@@ -20,6 +21,7 @@ class ExperimentToggle extends StatelessWidget {
     required this.subtitle,
     required this.value,
     required this.onChanged,
+    this.activeColor,
   });
 
   @override
@@ -29,7 +31,7 @@ class ExperimentToggle extends StatelessWidget {
       subtitle: Text(subtitle, style: const TextStyle(color: Colors.grey)),
       value: value,
       onChanged: onChanged,
-      activeColor: Theme.of(context).colorScheme.secondary,
+      activeColor: activeColor ?? Theme.of(context).colorScheme.secondary,
     );
   }
 }
@@ -44,22 +46,41 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
       ),
       body: ListView(
         children: [
+          _buildMasterToggle(),
+          const Divider(color: Colors.white24),
           _buildBypassLoginExperiment(),
         ],
       ),
     );
   }
 
-  Widget _buildBypassLoginExperiment() {
+  Widget _buildMasterToggle() {
     return ExperimentToggle(
-      title: 'Bypass Login Validation',
-      subtitle: 'Allows logging in with any password (dev only)',
-      value: AppConfig.experiment1BypassLoginValidation,
+      title: 'Enable All Experiments',
+      subtitle: 'Master switch for all experimental features',
+      value: AppConfig.enableAllExperiments,
+      activeColor: Colors.green,
       onChanged: (bool value) {
         setState(() {
-          AppConfig.setExperiment1BypassLoginValidation(value);
+          AppConfig.setEnableAllExperiments(value);
         });
       },
+    );
+  }
+
+  Widget _buildBypassLoginExperiment() {
+    final bool isEnabled = AppConfig.enableAllExperiments;
+    return ExperimentToggle(
+        title:  'Bypass Login Validation',
+        subtitle: 'Allows logging in with any password (dev only)',
+        value: AppConfig.experiment1BypassLoginValidation,
+        onChanged: isEnabled
+            ? (bool value) {
+                setState(() {
+                  AppConfig.setExperiment1BypassLoginValidation(value);
+                });
+              }
+            : null,
     );
   }
 }
