@@ -6,7 +6,7 @@ enum AppEnvironment {
 
 class AppConfig {
   // Use --dart-define=APP_ENV=dev to set this
-  static const String _env = String.fromEnvironment('APP_ENV', defaultValue: 'main');
+  static const String _env = String.fromEnvironment('APP_ENV', defaultValue: 'dev');
 
   static AppEnvironment get environment {
     switch (_env.toLowerCase()) {
@@ -15,7 +15,7 @@ class AppConfig {
       case 'test':
         return AppEnvironment.test;
       default:
-        return AppEnvironment.main;
+        return AppEnvironment.main; // Default to main
     }
   }
 
