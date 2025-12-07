@@ -17,6 +17,8 @@ dependencies:
   get_it: ^7.6.0
   # Icons
   font_awesome_flutter: ^10.6.0
+  # Local Storage
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:

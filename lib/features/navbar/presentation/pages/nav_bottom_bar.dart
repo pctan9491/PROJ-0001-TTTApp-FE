@@ -12,6 +12,13 @@ class NavBottomBar extends StatefulWidget {
 class _NavBottomBarState extends State<NavBottomBar> {
   int _selectedIndex = 0;
 
+  // Keys for identifying widgets in tests or inspector
+  static const Key mainPageKey = Key('mainPageKey');
+  static const Key taskListKey = Key('taskListKey');
+  static const Key personalAccountKey = Key('personalAccountKey');
+  static const Key moreKey = Key('moreKey');
+  static const Key experimentalFeatureKey = Key('experimentalFeatureKey');
+
   List<Widget> get _widgetOptions {
     final options = [
       const Center(child: Text('Main Page', style: TextStyle(color: Colors.white, fontSize: 24))),
@@ -37,18 +44,22 @@ class _NavBottomBarState extends State<NavBottomBar> {
   Widget build(BuildContext context) {
     final items = [
       const BottomNavigationBarItem(
+        key: mainPageKey,
         icon: Icon(Icons.home),
         label: 'Main',
       ),
       const BottomNavigationBarItem(
+        key: taskListKey,
         icon: Icon(Icons.list),
         label: 'Tasks',
       ),
       const BottomNavigationBarItem(
+        key: personalAccountKey,
         icon: Icon(Icons.person),
         label: 'Account',
       ),
       const BottomNavigationBarItem(
+        key: moreKey,
         icon: Icon(Icons.more_horiz),
         label: 'More',
       ),
@@ -57,6 +68,7 @@ class _NavBottomBarState extends State<NavBottomBar> {
     if (AppConfig.isExperimentalFeatureVisible) {
       items.add(
         const BottomNavigationBarItem(
+          key: experimentalFeatureKey,
           icon: Icon(FontAwesomeIcons.flask), // Experimental icon
           label: 'Exp.',
         ),
