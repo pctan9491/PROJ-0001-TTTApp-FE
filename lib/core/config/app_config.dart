@@ -29,11 +29,11 @@ class AppConfig {
   static const String _keyBypassLoginValidation = 'exp_bypass_login_validation';
 
   // --- EXPERIMENT A: Bypass Login Validation ---
-  static bool _bypassLoginValidation = false;
-  static bool get bypassLoginValidation => _bypassLoginValidation;
+  static bool _experiment1BypassLoginValidation = false;
+  static bool get experiment1BypassLoginValidation => _experiment1BypassLoginValidation;
 
-  static Future<void> setBypassLoginValidation(bool value) async {
-    _bypassLoginValidation = value;
+  static Future<void> setExperiment1BypassLoginValidation(bool value) async {
+    _experiment1BypassLoginValidation = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyBypassLoginValidation, value);
   }
@@ -45,7 +45,7 @@ class AppConfig {
 
   static Future<void> initialize() async {
     final prefs = await SharedPreferences.getInstance();
-    _bypassLoginValidation = prefs.getBool(_keyBypassLoginValidation) ?? false;
+    _experiment1BypassLoginValidation = prefs.getBool(_keyBypassLoginValidation) ?? false;
     // Load future experiments here...
   }
 }

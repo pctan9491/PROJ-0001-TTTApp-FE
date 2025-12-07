@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../experimental/presentation/pages/experimental.dart';
 import '../../../../core/config/app_config.dart';
 
 class NavBottomBar extends StatefulWidget {
@@ -28,7 +29,7 @@ class _NavBottomBarState extends State<NavBottomBar> {
     ];
 
     if (AppConfig.isExperimentalFeatureVisible) {
-      options.add(const Center(child: Text('Experimental (AB Test)', style: TextStyle(color: Colors.white, fontSize: 24))));
+      options.add(const Center(child: ExperimentalPage()));
     }
 
     return options;

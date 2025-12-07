@@ -54,10 +54,10 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
     return ExperimentToggle(
       title: 'Bypass Login Validation',
       subtitle: 'Allows logging in with any password (dev only)',
-      value: AppConfig.bypassLoginValidation,
+      value: AppConfig.experiment1BypassLoginValidation,
       onChanged: (bool value) {
         setState(() {
-          AppConfig.setBypassLoginValidation(value);
+          AppConfig.setExperiment1BypassLoginValidation(value);
         });
       },
     );

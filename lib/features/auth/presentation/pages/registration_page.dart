@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../home/presentation/pages/main_page.dart';
+import '../../../../core/config/app_config.dart';
+
+
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -136,6 +139,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
           textInputAction: TextInputAction.next,
           validator: (value) {
+            if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
               return 'Please enter your name';
             }
@@ -169,6 +173,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           validator: (value) {
+            if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
             }
@@ -216,6 +221,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           obscureText: _isObscurePassword,
           textInputAction: TextInputAction.next,
           validator: (value) {
+            if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
               return 'Please enter a password';
             }
@@ -263,6 +269,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           obscureText: _isObscureConfirm,
           textInputAction: TextInputAction.done,
           validator: (value) {
+            if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
               return 'Please confirm your password';
             }

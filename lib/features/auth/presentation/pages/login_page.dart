@@ -159,6 +159,7 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           validator: (value) {
+            if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
             }
@@ -226,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           obscureText: _isObscure,
           validator: (value) {
-            if (AppConfig.bypassLoginValidation) return null; // Bypass validation
+            if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
               return 'Please enter your password';
             }
