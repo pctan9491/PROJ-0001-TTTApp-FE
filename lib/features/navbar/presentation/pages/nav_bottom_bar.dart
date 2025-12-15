@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../home/presentation/pages/eisenhower_matrix_page.dart';
 import '../../../experimental/presentation/pages/experimental.dart';
 import '../../../../core/config/app_config.dart';
 
@@ -14,7 +15,8 @@ class _NavBottomBarState extends State<NavBottomBar> {
   int _selectedIndex = 0;
 
   // Keys for identifying widgets in tests or inspector
-  static const Key mainPageKey = Key('mainPageKey');
+  static const Key eisenhowerMatrixKey = Key('eisenhowerMatrixKey');
+  //static const Key mainPageKey = Key('mainPageKey');
   static const Key taskListKey = Key('taskListKey');
   static const Key personalAccountKey = Key('personalAccountKey');
   static const Key moreKey = Key('moreKey');
@@ -22,7 +24,7 @@ class _NavBottomBarState extends State<NavBottomBar> {
 
   List<Widget> get _widgetOptions {
     final options = [
-      const Center(child: Text('Main Page', style: TextStyle(color: Colors.white, fontSize: 24))),
+      const EisenhowerMatrixPage(),
       const Center(child: Text('Task List', style: TextStyle(color: Colors.white, fontSize: 24))),
       const Center(child: Text('Personal Account', style: TextStyle(color: Colors.white, fontSize: 24))),
       const Center(child: Text('More', style: TextStyle(color: Colors.white, fontSize: 24))),
@@ -45,7 +47,7 @@ class _NavBottomBarState extends State<NavBottomBar> {
   Widget build(BuildContext context) {
     final items = [
       const BottomNavigationBarItem(
-        key: mainPageKey,
+        key: eisenhowerMatrixKey,
         icon: Icon(Icons.home),
         label: 'Main',
       ),

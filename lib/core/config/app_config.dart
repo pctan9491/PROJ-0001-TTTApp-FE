@@ -28,6 +28,7 @@ class AppConfig {
   // Persistence Keys
   static const String _keyBypassLoginValidation = 'exp_bypass_login_validation';
   static const String _keyEnableAllExperiments = 'exp_enable_all_experiments';
+  static const String _keyShowAddTaskButton = 'exp_show_add_task_button';
 
   // --- Master Toggle ---
   static bool _enableAllExperiments = false;
@@ -36,6 +37,7 @@ class AppConfig {
   // Registry of experiment setters controlled by the master toggle
   static final List<Future<void> Function(bool)> _experimentSetters = [
     setExperiment1BypassLoginValidation,
+    setExperimentShowAddTaskButton,
     // Add new experiment setters here
   ];
 
@@ -60,6 +62,16 @@ class AppConfig {
     await prefs.setBool(_keyBypassLoginValidation, value);
   }
 
+  // --- EXPERIMENT B: Show Add Task Button ---
+  static bool _experimentShowAddTaskButton = false;
+  static bool get experimentShowAddTaskButton => _experimentShowAddTaskButton;
+
+  static Future<void> setExperimentShowAddTaskButton(bool value) async {
+    _experimentShowAddTaskButton = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyShowAddTaskButton, value);
+  }
+
   // --- FUTURE EXPERIMENTS (Template) ---
   // static bool _experimentB = false;
   // static bool get experimentB => _experimentB;
@@ -69,6 +81,7 @@ class AppConfig {
     final prefs = await SharedPreferences.getInstance();
     _enableAllExperiments = prefs.getBool(_keyEnableAllExperiments) ?? true;
     _experiment1BypassLoginValidation = prefs.getBool(_keyBypassLoginValidation) ?? false;
+    _experimentShowAddTaskButton = prefs.getBool(_keyShowAddTaskButton) ?? false;
     // Load future experiments here...
   }
 }

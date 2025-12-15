@@ -49,6 +49,7 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
           _buildMasterToggle(),
           const Divider(color: Colors.white24),
           _buildBypassLoginExperiment(),
+          _buildShowAddTaskButtonExperiment(),
         ],
       ),
     );
@@ -62,7 +63,11 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
       activeColor: Colors.green,
       onChanged: (bool value) {
         setState(() {
-          AppConfig.setEnableAllExperiments(value);
+          // Update master toggle immediately (optimistic UI)
+          AppConfig.setEnableAllExperiments(value).then((_) {
+            // Rebuild again once all child experiments have been updated
+            if (mounted) setState(() {});
+          });
         });
       },
     );
@@ -76,6 +81,19 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
       onChanged: (bool value) {
         setState(() {
           AppConfig.setExperiment1BypassLoginValidation(value);
+        });
+      },
+    );
+  }
+
+  Widget _buildShowAddTaskButtonExperiment() {
+    return ExperimentToggle(
+      title: 'Show Add Task Button',
+      subtitle: 'Toggle visibility of the Add Task button in Eisenhower Matrix',
+      value: AppConfig.experimentShowAddTaskButton,
+      onChanged: (bool value) {
+        setState(() {
+          AppConfig.setExperimentShowAddTaskButton(value);
         });
       },
     );
