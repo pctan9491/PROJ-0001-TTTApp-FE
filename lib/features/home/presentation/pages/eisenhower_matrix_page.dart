@@ -8,6 +8,11 @@ class EisenhowerMatrixPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Connect to State Management (Bloc/Provider) here
+    // 1. Inject TaskBloc or TaskRepository
+    // 2. Use BlocBuilder<TaskBloc, TaskState> to get the list of tasks
+    // 3. Replace the dummy 'tasks' list below with 'state.tasks'
+    
     // Dummy Data
     final tasks = [
       const Task(id: '1', uuid: '1', userUuid: '1', title: 'Fix Critical Bug', importance: TaskImportance.important, urgency: TaskUrgency.urgent),
