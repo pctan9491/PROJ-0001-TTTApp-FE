@@ -102,12 +102,12 @@ class EisenhowerMatrixPage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFAE3AC).withOpacity(0.2), // Semi-transparent background
-                        border: Border.all(color: Colors.blue.shade300, width: 2),
+                        color: Colors.white, // Semi-transparent background
+                        border: Border.all(color: Colors.green.shade400, width: 2),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: IconButton(
-                        icon: const Icon(FontAwesomeIcons.rocket, color: Color.fromRGBO(100, 181, 246, 1)),
+                        icon: const Icon(FontAwesomeIcons.rocket, color: Color.fromRGBO(102, 187, 106, 1)),
                         onPressed: () {
                           // TODO: Implement Add Task
                         },
@@ -118,12 +118,12 @@ class EisenhowerMatrixPage extends StatelessWidget {
                    Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFAE3AC).withOpacity(0.2), // Semi-transparent background
-                        border: Border.all(color: Colors.blue.shade300, width: 2),
+                        color: Colors.white, // Semi-transparent background
+                        border: Border.all(color: const Color(0xFFFAE3AC), width: 2),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: IconButton(
-                        icon: const Icon(FontAwesomeIcons.plus, color: Color.fromRGBO(100, 181, 246, 1)), // Rocket icon for future use
+                        icon: const Icon(FontAwesomeIcons.plus, color: Color(0xFFFAE3AC)), // Rocket icon for future use
                         onPressed: () {
                           // Future use
                         },

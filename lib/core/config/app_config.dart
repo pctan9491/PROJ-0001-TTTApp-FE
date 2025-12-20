@@ -79,9 +79,16 @@ class AppConfig {
 
   static Future<void> initialize() async {
     final prefs = await SharedPreferences.getInstance();
-    _enableAllExperiments = prefs.getBool(_keyEnableAllExperiments) ?? true;
+    
+    // 1. Load the Master Toggle
+    _enableAllExperiments = prefs.getBool(_keyEnableAllExperiments) ?? false;
+
+    // 2. Load Individual Experiments
+    // Note: If Master is OFF, experiments are technically "off" for the user, 
+    // but we still load their individual stored state so the UI reflects what was last selected.
     _experiment1BypassLoginValidation = prefs.getBool(_keyBypassLoginValidation) ?? false;
     _experimentShowAddTaskButton = prefs.getBool(_keyShowAddTaskButton) ?? false;
-    // Load future experiments here...
+
+    //future experiments
   }
 }

@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   static const Key googleLoginKey = Key('google_login_button');
   static const Key loginButtonKey = Key('login_button');
   static const Key signUpLinkKey = Key('sign_up_link');
+  static const Key experimentFabKey = Key('experiment_fab');
 
   @override
   void dispose() {
@@ -99,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
       right: 16,
       bottom: 16,
       child: FloatingActionButton(
+        key: experimentFabKey,
         onPressed: () {
           Navigator.push(
             context,
