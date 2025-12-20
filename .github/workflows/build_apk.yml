@@ -5,6 +5,9 @@ on:
     branches: [ "main", "master", "dev", "test" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,6 +27,9 @@ jobs:
           channel: 'stable'
           cache: true
       
+      - name: Install QR Code Tool
+        run: sudo apt-get install -y qrencode
+
       - name: List files (Debug)
         run: ls -R
 
@@ -33,7 +39,26 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Upload APK
+      - name: Set Release Tag
+        run: echo "TAG_NAME=nightly-${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Nightly Build (${{ github.ref_name }})
+          tag_name: ${{ env.TAG_NAME }}
+          files: build/app/outputs/flutter-apk/app-release.apk
+          prerelease: true
+          overwrite: true
+
+      - name: Generate QR Code
+        run: |
+          URL="https://github.com/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/app-release.apk"
+          echo "Scan this QR code to download the APK:"
+          echo "URL: $URL"
+          qrencode -t ANSIUTF8 "$URL"
+
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
