@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../home/presentation/pages/eisenhower_matrix_page.dart';
+import '../../../tasks/presentation/pages/task_list_page.dart';
 import '../../../experimental/presentation/pages/experimental.dart';
 import '../../../../core/config/app_config.dart';
 
@@ -25,7 +26,7 @@ class _NavBottomBarState extends State<NavBottomBar> {
   List<Widget> get _widgetOptions {
     final options = [
       const EisenhowerMatrixPage(),
-      const Center(child: Text('Task List', style: TextStyle(color: Colors.white, fontSize: 24))),
+      const TaskListPage(),
       const Center(child: Text('Personal Account', style: TextStyle(color: Colors.white, fontSize: 24))),
       const Center(child: Text('More', style: TextStyle(color: Colors.white, fontSize: 24))),
     ];
