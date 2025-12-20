@@ -10,7 +10,7 @@ class ToDoApp extends StatelessWidget {
       title: 'ToDo Target App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFF01344F),
+        scaffoldBackgroundColor: const Color(0xFF01344F), // This is your Primary Color
         canvasColor: const Color(0xFF01344F), // Match scaffold background for BottomNavigationBar
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 66, 132, 100),
