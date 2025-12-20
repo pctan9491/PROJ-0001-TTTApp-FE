@@ -37,6 +37,7 @@ class _TaskListPageState extends State<TaskListPage> {
     // 1. Filter Tasks Logic
     List<Task> filteredTasks = _getFilteredTasks();
 
+    //Main content (Scaffold)
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
