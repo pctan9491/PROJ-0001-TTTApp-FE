@@ -12,13 +12,14 @@ class TaskListPage extends StatefulWidget {
 class _TaskListPageState extends State<TaskListPage> {
   // State Variables
   String _searchQuery = '';
-  String _activeFilter = 'All'; // Options: 'All', 'Do', 'Overdue'
+  String _activeFilter = 'All'; // Options: 'All', 'Do', 'Overdue' and more
 
   // Keys for identifying widgets in tests or inspector
   static const Key searchQueryFieldKey = Key('search_query_field');
   static const Key filterDropdownKey = Key('filter_dropdown');
   static const Key addTaskButtonKey = Key('add_task_button');
   static const Key taskListKey = Key('task_list');
+  static const Key taskProgressDashboardKey = Key('task_progress_dashboard');
 
   // Dummy Data (Same structure as Eisenhower Matrix for consistency)
   final List<Task> _allTasks = [
@@ -50,6 +51,13 @@ class _TaskListPageState extends State<TaskListPage> {
               onSearchChanged: (value) => setState(() => _searchQuery = value),
               onFilterTap: () => _showFilterDialog(context, primaryColor, secondaryColor),
               primaryColor: primaryColor,
+              secondaryColor: secondaryColor,
+            ),
+
+            // --- Task Progress Dashboard ---
+            _TaskProgressDashboard(
+              key: taskProgressDashboardKey,
+              tasks: filteredTasks,
               secondaryColor: secondaryColor,
             ),
 
@@ -94,6 +102,7 @@ class _TaskListPageState extends State<TaskListPage> {
       } else if (_activeFilter == 'Overdue') {
         matchesCategory = false; // TODO: Implement overdue logic
       }
+      // Add more filters as needed
       return matchesSearch && matchesCategory;
     }).toList();
   }
@@ -120,6 +129,7 @@ class _TaskListPageState extends State<TaskListPage> {
               _buildFilterOption('All Tasks', 'All', secondaryColor),
               _buildFilterOption('"Do" Tasks (Important & Urgent)', 'Do', secondaryColor),
               _buildFilterOption('Overdue Tasks', 'Overdue', secondaryColor),
+              // Add more filter options as needed
             ],
           ),
         );
@@ -207,6 +217,64 @@ class _TaskSearchBar extends StatelessWidget {
   }
 }
 
+// --- Task Progress Dashboard ---
+class _TaskProgressDashboard extends StatelessWidget {
+  final List<Task> tasks;
+  final Color secondaryColor;
+
+  const _TaskProgressDashboard({
+    Key? key,
+    required this.tasks,
+    required this.secondaryColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final totalTasks = tasks.length;
+    final completedTasks = tasks.where((t) => t.isCompleted).length;
+    final doTasks = tasks.where((t) => t.importance == TaskImportance.important && t.urgency == TaskUrgency.urgent).length;
+    // TODO: Implement actual overdue logic when deadline is available
+    final overdueTasks = 0; 
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+      child: Column(
+        children: [
+          // Row 1: Total & Completed
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildMetricText('Total Tasks', totalTasks, secondaryColor),
+              _buildMetricText('Completed', completedTasks, secondaryColor),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Row 2: Do & Overdue
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildMetricText('"Do" Tasks', doTasks, secondaryColor),
+              _buildMetricText('Overdue', overdueTasks, Colors.redAccent.withOpacity(0.8)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMetricText(String label, int count, Color color) {
+    return Text(
+      '$label: $count',
+      style: TextStyle(
+        color: color.withOpacity(label == 'Overdue' ? 1.0 : 0.7),
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+}
+
+// --- Filter Indicator ---
 class _FilterIndicator extends StatelessWidget {
   final String activeFilter;
   final VoidCallback onClear;
@@ -240,6 +308,7 @@ class _FilterIndicator extends StatelessWidget {
   }
 }
 
+// --- Task List View ---
 class _TaskListView extends StatelessWidget {
   final List<Task> tasks;
   final Color secondaryColor;
@@ -271,6 +340,7 @@ class _TaskListView extends StatelessWidget {
   }
 }
 
+// --- Task Item ---
 class _TaskItem extends StatelessWidget {
   final Task task;
   final Color secondaryColor;
@@ -322,6 +392,7 @@ class _TaskItem extends StatelessWidget {
     );
   }
 
+// --- Matrix Label Helper ---
   String _getMatrixLabel(Task task) {
     if (task.importance == TaskImportance.important && task.urgency == TaskUrgency.urgent) {
       return 'Do (Important & Urgent)';
