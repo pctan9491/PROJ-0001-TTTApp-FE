@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../domain/entities/task.dart';
+import 'add_task_page.dart';
 
 class TaskListPage extends StatefulWidget {
   const TaskListPage({super.key});
@@ -86,7 +87,10 @@ class _TaskListPageState extends State<TaskListPage> {
         key: addTaskButtonKey,
         backgroundColor: secondaryColor,
         onPressed: () {
-          // TODO: Implement Add Task
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddTaskPage()),
+          );
         },
         child: Icon(FontAwesomeIcons.plus, color: primaryColor),
       ),
@@ -154,6 +158,7 @@ class _TaskListPageState extends State<TaskListPage> {
       },
     );
   }
+
 }
 
 // --- Sub-Widgets ---
