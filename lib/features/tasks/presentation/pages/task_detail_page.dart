@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../domain/entities/task.dart';
+import 'add_task_page.dart';
 
 class TaskDetailPage extends StatelessWidget {
   final Task task;
@@ -38,7 +39,12 @@ class TaskDetailPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.edit, color: secondaryColor),
             onPressed: () {
-              // TODO: Navigate to Edit Task
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddTaskPage(task: task),
+                ),
+              );
             },
           ),
         ],
