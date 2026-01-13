@@ -3,7 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../domain/entities/task.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  final Task? task; // Optional task for editing mode
+
+  const AddTaskPage({super.key, this.task});
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -11,15 +13,50 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   // Form State
-  String _title = '';
-  String _details = '';
+  late String _title;
+  late String _details;
   DateTime? _schedule;
-  TaskImportance _importance = TaskImportance.important;
-  TaskUrgency _urgency = TaskUrgency.urgent;
+  late TaskImportance _importance;
+  late TaskUrgency _urgency;
   
   // Subtasks
   final List<String> _subtasks = [];
   final TextEditingController _subtaskController = TextEditingController();
+  late final TextEditingController _titleController;
+  late final TextEditingController _detailsController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize state based on whether we are editing or creating
+    final task = widget.task;
+    if (task != null) {
+      _title = task.title;
+      _details = task.description;
+      _schedule = task.schedule;
+      _importance = task.importance;
+      _urgency = task.urgency;
+      // Note: Subtasks are not yet in the Task entity, so we leave list empty or load if added later
+    } else {
+      _title = '';
+      _details = '';
+      _schedule = null;
+      _importance = TaskImportance.important;
+      _urgency = TaskUrgency.urgent;
+    }
+
+    _titleController = TextEditingController(text: _title);
+    _detailsController = TextEditingController(text: _details);
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _detailsController.dispose();
+    _subtaskController.dispose();
+    super.dispose();
+  }
+
 
   // Helper to map Matrix Category
   void _setMatrixCategory(String category) {
@@ -66,11 +103,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
           icon: Icon(Icons.close, color: secondaryColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Create New Task', style: TextStyle(color: secondaryColor, fontSize: 16)),
+        title: Text(widget.task == null ? 'Create New Task' : 'Edit Task', style: TextStyle(color: secondaryColor, fontSize: 16)),
         actions: [
           TextButton(
             onPressed: () {
-              // TODO: Save logic here
+              // TODO: Save or Update logic here
               Navigator.pop(context);
             },
             child: Text('Save', style: TextStyle(color: secondaryColor, fontWeight: FontWeight.bold, fontSize: 13)),
@@ -84,6 +121,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: [
             // --- Title Input ---
             TextField(
+              controller: _titleController,
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                 hintText: 'What needs to be done?',
@@ -92,6 +130,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               onChanged: (val) => _title = val,
             ),
+
             const SizedBox(height: 20),
 
             // --- Eisenhower Matrix Selector ---
@@ -131,6 +170,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               child: Column(
                 children: [
                   TextField(
+                    controller: _detailsController,
                     style: TextStyle(color: Colors.white),
                     maxLines: 3,
                     decoration: InputDecoration(
@@ -141,6 +181,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ),
                     onChanged: (val) => _details = val,
                   ),
+
                   const Divider(color: Colors.white24),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
