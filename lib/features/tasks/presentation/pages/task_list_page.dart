@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../domain/entities/task.dart';
 import 'add_task_page.dart';
+import 'task_detail_page.dart';
 
 class TaskListPage extends StatefulWidget {
   const TaskListPage({super.key});
@@ -391,7 +392,12 @@ class _TaskItem extends StatelessWidget {
         ),
         trailing: Icon(Icons.chevron_right, color: secondaryColor.withOpacity(0.5)),
         onTap: () {
-          // TODO: Navigate to Task Details
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TaskDetailPage(task: task),
+            ),
+          );
         },
       ),
     );
