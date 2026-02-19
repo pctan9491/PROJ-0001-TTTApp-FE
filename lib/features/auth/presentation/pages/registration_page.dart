@@ -18,12 +18,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  String _selectedGender = 'Male';
   bool _isObscurePassword = true;
   bool _isObscureConfirm = true;
 
   // Keys for identifying widgets in tests or inspector
   static const Key nameFieldKey = Key('name_field');
   static const Key emailFieldKey = Key('email_field');
+  static const Key genderFieldKey = Key('gender_field');
   static const Key passwordFieldKey = Key('password_field');
   static const Key confirmPasswordFieldKey = Key('confirm_password_field');
   static const Key registerButtonKey = Key('register_button');
@@ -70,9 +72,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         const SizedBox(height: 60), // Space for back button
                         _buildHeader(context),
                         const SizedBox(height: 32),
+                        _buildProfilePictureSelector(), // New Profile Pic
+                        const SizedBox(height: 24),
                         _buildNameField(),
                         const SizedBox(height: 16),
                         _buildEmailField(),
+                        const SizedBox(height: 16),
+                        _buildGenderField(), // New Gender Field
                         const SizedBox(height: 16),
                         _buildPasswordField(),
                         const SizedBox(height: 16),
@@ -111,6 +117,82 @@ class _RegistrationPageState extends State<RegistrationPage> {
           style: TextStyle(
             color: Colors.grey[300],
             fontSize: 16,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfilePictureSelector() {
+    return Center(
+      child: Stack(
+        children: [
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.grey[800],
+              shape: BoxShape.circle,
+              border: Border.all(color: Theme.of(context).colorScheme.secondary.withOpacity(0.5), width: 2),
+            ),
+            child: Icon(Icons.person, size: 60, color: Colors.white.withOpacity(0.5)),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.camera_alt, size: 16, color: Colors.black),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGenderField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Gender',
+          style: TextStyle(
+            color: Colors.grey[300],
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05), // Match TextFormField fill if possible, or just transparent
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.7))), // Approx match
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              key: genderFieldKey,
+              value: _selectedGender,
+              isExpanded: true,
+              dropdownColor: Theme.of(context).primaryColor, // Or scaffold background
+              style: const TextStyle(color: Colors.white),
+              icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.secondary),
+              items: ['Male', 'Female', 'Other'].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedGender = newValue!;
+                });
+              },
+            ),
           ),
         ),
       ],
