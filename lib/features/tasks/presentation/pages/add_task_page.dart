@@ -25,6 +25,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
   late final TextEditingController _titleController;
   late final TextEditingController _detailsController;
 
+    // Keys for identifying widgets in tests or inspector
+  static const Key taskTitleKey = Key('task_title_field');
+  static const Key taskDetailsKey = Key('task_details_field');
+  static const Key scheduleFieldKey = Key('schedule_field');
+  static const Key importanceFieldKey = Key('importance_field');
+  static const Key urgencyFieldKey = Key('urgency_field');
+  static const Key subtaskFieldKey = Key('subtask_field');
+  static const Key addSubtaskButtonKey = Key('add_subtask_button');
+  static const Key registerButtonKey = Key('register_button');
+
   @override
   void initState() {
     super.initState();
@@ -121,6 +131,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: [
             // --- Title Input ---
             TextField(
+              key: taskTitleKey,
               controller: _titleController,
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
               decoration: InputDecoration(
@@ -155,6 +166,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 subtitle: Text(_getCurrentMatrixLabel(), style: TextStyle(color: Colors.white70)),
                 trailing: Icon(Icons.arrow_drop_down, color: secondaryColor),
                 onTap: () => _showMatrixSelectionModal(context, primaryColor, secondaryColor),
+                key: scheduleFieldKey,
               ),
             ),
 
@@ -170,6 +182,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               child: Column(
                 children: [
                   TextField(
+                    key: taskDetailsKey,
                     controller: _detailsController,
                     style: TextStyle(color: Colors.white),
                     maxLines: 3,
@@ -204,6 +217,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ListTile(
+                key: scheduleFieldKey,
                 leading: Icon(Icons.calendar_today_outlined, color: secondaryColor),
                 title: Text(
                   _schedule == null ? 'Set Due Date' : _schedule.toString().split(' ')[0],
@@ -239,6 +253,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
             // --- Subtasks ---
             Row(
+              key: subtaskFieldKey,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildSectionLabel('Subtasks', secondaryColor),
