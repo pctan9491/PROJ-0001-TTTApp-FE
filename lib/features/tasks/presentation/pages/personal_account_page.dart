@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../auth/domain/entities/user.dart';
+import '../../../auth/presentation/pages/login_page.dart';
 
 class PersonalAccountPage extends StatelessWidget {
   const PersonalAccountPage({super.key});
@@ -96,7 +97,12 @@ class PersonalAccountPage extends StatelessWidget {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  // TODO: Implement Sign Out
+                  // Navigate to Login Page and remove all previous routes
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    (route) => false,
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: Colors.redAccent.withOpacity(0.5)),
