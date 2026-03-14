@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../auth/domain/entities/user.dart';
 import '../../../auth/presentation/pages/login_page.dart';
+import 'settings_page.dart';
+import 'edit_profile_page.dart';
 
 class PersonalAccountPage extends StatelessWidget {
   const PersonalAccountPage({super.key});
@@ -24,7 +26,12 @@ class PersonalAccountPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.settings, color: secondaryColor),
             onPressed: () {
-              // TODO: Navigate to settings
+              // Todo: Navigate to setting page
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()),
+              //);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Settings functionality coming soon')),
+              );
             },
           ),
         ],
@@ -57,14 +64,24 @@ class PersonalAccountPage extends StatelessWidget {
                 Positioned(
                   bottom: 0,
                   right: 4,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: primaryColor, width: 3),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfilePage(user: user),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: primaryColor, width: 3),
+                      ),
+                      child: Icon(Icons.edit, size: 16, color: primaryColor),
                     ),
-                    child: Icon(Icons.edit, size: 16, color: primaryColor),
                   ),
                 ),
               ],
