@@ -70,7 +70,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               const SizedBox(height: 16),
               _buildEmailField(),
               const SizedBox(height: 16),
-              _buildGenderField(),
+              _buildGenderField(secondaryColor),
               const SizedBox(height: 32),
               _buildSaveButton(secondaryColor),
             ],
@@ -158,7 +158,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildGenderField() {
+  Widget _buildGenderField(Color secondaryColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -181,15 +181,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: DropdownButton<String>(
               value: _selectedGender,
               isExpanded: true,
-              dropdownColor: Theme.of(context).primaryColor,
-              style: const TextStyle(color: Colors.white),
+              dropdownColor: secondaryColor,
+              style: const TextStyle(color: Colors.white), // Default selected text color
               icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).colorScheme.secondary),
               items: ['Male', 'Female', 'Other'].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(
+                    value,
+                    style: const TextStyle(color: Colors.black), // Text color inside the dropdown list
+                  ),
                 );
               }).toList(),
+              selectedItemBuilder: (BuildContext context) {
+                // Keep the selected item text white when the dropdown is closed
+                return ['Male', 'Female', 'Other'].map<Widget>((String item) {
+                  return Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(item, style: const TextStyle(color: Colors.white)),
+                  );
+                }).toList();
+              },
               onChanged: (newValue) {
                 setState(() {
                   _selectedGender = newValue!;
