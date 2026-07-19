@@ -93,7 +93,7 @@ class _TaskListPageState extends State<TaskListPage> {
             MaterialPageRoute(builder: (context) => const AddTaskPage()),
           );
         },
-        child: Icon(FontAwesomeIcons.plus, color: primaryColor),
+        child: FaIcon(FontAwesomeIcons.plus, color: primaryColor),
       ),
     );
   }
@@ -381,7 +381,7 @@ class _TaskItem extends StatelessWidget {
           padding: const EdgeInsets.only(top: 4.0),
           child: Row(
             children: [
-              Icon(FontAwesomeIcons.tag, size: 12, color: secondaryColor.withOpacity(0.7)),
+              FaIcon(FontAwesomeIcons.tag, size: 12, color: secondaryColor.withOpacity(0.7)),
               const SizedBox(width: 6),
               Text(
                 matrixLabel,

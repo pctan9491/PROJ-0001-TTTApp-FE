@@ -98,11 +98,11 @@ class PersonalAccountPage extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _buildInfoRow('Username', user.name, Icons.person, secondaryColor),
+                  _buildInfoRow('Username', user.name, Icon(Icons.person, color: secondaryColor, size: 20), secondaryColor),
                   const Divider(color: Colors.white10, height: 32),
-                  _buildInfoRow('Email', user.email, Icons.email, secondaryColor),
+                  _buildInfoRow('Email', user.email, Icon(Icons.email, color: secondaryColor, size: 20), secondaryColor),
                   const Divider(color: Colors.white10, height: 32),
-                  _buildInfoRow('Gender', user.gender, FontAwesomeIcons.venusMars, secondaryColor),
+                  _buildInfoRow('Gender', user.gender, FaIcon(FontAwesomeIcons.venusMars, color: secondaryColor, size: 20), secondaryColor),
                 ],
               ),
             ),
@@ -138,7 +138,7 @@ class PersonalAccountPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(String label, String value, IconData icon, Color color) {
+  Widget _buildInfoRow(String label, String value, Widget icon, Color color) {
     return Row(
       children: [
         Container(
@@ -147,7 +147,7 @@ class PersonalAccountPage extends StatelessWidget {
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, color: color, size: 20),
+          child: icon,
         ),
         const SizedBox(width: 16),
         Expanded(

@@ -160,7 +160,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     color: secondaryColor.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(FontAwesomeIcons.tableCellsLarge, color: secondaryColor, size: 20),
+                  child: FaIcon(FontAwesomeIcons.tableCellsLarge, color: secondaryColor, size: 20),
                 ),
                 title: Text('Eisenhower Matrix', style: TextStyle(color: secondaryColor)),
                 subtitle: Text(_getCurrentMatrixLabel(), style: TextStyle(color: Colors.white70)),

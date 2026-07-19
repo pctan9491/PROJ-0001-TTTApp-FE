@@ -10,20 +10,20 @@ dependencies:
   flutter:
     sdk: flutter
   # State Management (Recommended for Clean Arch)
-  flutter_bloc: ^8.1.0 
+  flutter_bloc: ^9.1.1 
   # Comparison & Value Equality
   equatable: ^2.0.5
   # Dependency Injection
-  get_it: ^7.6.0
+  get_it: ^9.2.1
   # Icons
-  font_awesome_flutter: ^10.6.0
+  font_awesome_flutter: ^11.0.0
   # Local Storage
   shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
