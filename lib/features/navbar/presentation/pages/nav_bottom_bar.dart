@@ -74,7 +74,7 @@ class _NavBottomBarState extends State<NavBottomBar> {
       items.add(
         const BottomNavigationBarItem(
           key: experimentalFeatureKey,
-          icon: Icon(FontAwesomeIcons.flask), // Experimental icon
+          icon: FaIcon(FontAwesomeIcons.flask), // Experimental icon
           label: 'Exp.',
         ),
       );

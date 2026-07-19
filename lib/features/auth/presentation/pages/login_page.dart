@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
         backgroundColor: Colors.red,
-        child: const Icon(FontAwesomeIcons.flask, color: Colors.white),
+        child: const FaIcon(FontAwesomeIcons.flask, color: Colors.white),
       ),
     );
   }

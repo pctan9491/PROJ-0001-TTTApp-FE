@@ -112,7 +112,7 @@ class EisenhowerMatrixPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: IconButton(
-                        icon: const Icon(FontAwesomeIcons.rocket, color: Color.fromRGBO(102, 187, 106, 1)),
+                        icon: const FaIcon(FontAwesomeIcons.rocket, color: Color.fromRGBO(102, 187, 106, 1)),
                         onPressed: () {
                           // TODO: Implement Add Task
                         },
@@ -128,7 +128,7 @@ class EisenhowerMatrixPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: IconButton(
-                        icon: const Icon(FontAwesomeIcons.plus, color: Color(0xFFFAE3AC)), // Rocket icon for future use
+                        icon: const FaIcon(FontAwesomeIcons.plus, color: Color(0xFFFAE3AC)), // Rocket icon for future use
                         onPressed: () {
                           // Future use
                         },
