@@ -5,6 +5,7 @@ import '../../../experimental/presentation/pages/experimental.dart';
 import '../../../home/presentation/pages/main_page.dart';
 import 'forgot_password_page.dart';
 import 'registration_page.dart';
+import '../../../../core/services/api_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,7 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isObscure = true;
 
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   //static const Color _accentColor = Color(0xFFFAE3AC);
 
   // Keys for identifying widgets in tests or inspector
-  static const Key emailFieldKey = Key('email_field');
+  static const Key loginIDFieldKey = Key('login_id_field');
   static const Key passwordFieldKey = Key('password_field');
   static const Key googleLoginKey = Key('google_login_button');
   static const Key loginButtonKey = Key('login_button');
@@ -33,23 +34,50 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _loginController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Implement actual login logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Login...')),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
-      );
-    }
+
+Future<void> _login() async {
+  if (!_formKey.currentState!.validate()) {
+    return;
   }
+
+  try {
+    // Step 1: Call Django Login API
+    final result = await ApiService.login(
+      _loginController.text.trim(),
+      _passwordController.text,
+    );
+
+    // Step 2: Check returned User
+    debugPrint(
+      'Login Success: ${result['user']['user_id']}',
+    );
+
+    if (!mounted) return;
+
+    // Step 3: Only navigate after successful login
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainPage(),
+      ),
+    );
+
+  } catch (error) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Login failed: $error'),
+      ),
+    );
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         _buildHeader(context),
                         const SizedBox(height: 40),
-                        _buildEmailField(),
+                        _buildLoginIDField(),
                         const SizedBox(height: 24),
                         _buildPasswordField(),
                         const SizedBox(height: 24),
@@ -138,12 +166,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildEmailField() {
+  Widget _buildLoginIDField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Email',
+          'Login ID',
           style: TextStyle(
             color: Colors.grey[300],
             fontSize: 14,
@@ -152,21 +180,18 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 8),
         TextFormField(
-          key: emailFieldKey,
-          controller: _emailController,
+          key: loginIDFieldKey,
+          controller: _loginController,
           style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(
-            hintText: 'Enter your email',
+            hintText: 'Enter your login ID',
           ),
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           validator: (value) {
             if (AppConfig.experiment1BypassLoginValidation) return null; // Experiment 1
             if (value == null || value.isEmpty) {
-              return 'Please enter your email';
-            }
-            if (!value.contains('@')) {
-              return 'Please enter a valid email';
+              return 'Please enter your login ID';
             }
             return null;
           },
