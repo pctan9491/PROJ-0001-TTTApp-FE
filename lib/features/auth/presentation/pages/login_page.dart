@@ -53,8 +53,14 @@ Future<void> _login() async {
     );
 
     // Step 2: Check returned User
+    debugPrint('Login User: ${result['user']}');
+
     debugPrint(
-      'Login Success: ${result['user']['user_id']}',
+      'Token Received: ${result.containsKey('access_token')}',
+    );
+
+    debugPrint(
+      'Credential Received: ${result.containsKey('login_credential')}',
     );
 
     if (!mounted) return;
