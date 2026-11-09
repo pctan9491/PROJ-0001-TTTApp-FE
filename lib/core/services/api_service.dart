@@ -47,6 +47,45 @@ class ApiService {
     return result;
   }
 
+   // Reusable HTTP GET Function
+  static Future<Map<String, dynamic>> get(
+    String endpoint,
+  ) async {
+    // 1. Retrieve saved Token
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+
+    if (token == null || token.isEmpty) {
+      throw Exception('Please login first');
+    }
+
+    debugPrint('Calling API: $baseUrl$endpoint');
+    // 2. Send GET Request to Django
+    final response = await http.get(
+      Uri.parse('$baseUrl$endpoint'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    ).timeout(const Duration(seconds: 15));
+
+    // 3. Decode JSON Response
+    final result = jsonDecode(
+      utf8.decode(response.bodyBytes),
+    ) as Map<String, dynamic>;
+
+    // 4. Handle unsuccessful Response
+    if (response.statusCode < 200 ||
+        response.statusCode >= 300) {
+      throw Exception(
+        result['detail'] ??
+        result.toString(),
+      );
+    }
+
+    return result;
+  }
+
   // Login
   static Future<Map<String, dynamic>> login(
     String email,
@@ -66,6 +105,11 @@ class ApiService {
 
     await prefs.setString('access_token', token);
     return result;
+  }
+
+  // Get Current Login User
+  static Future<Map<String, dynamic>> getUser() {
+    return get('/api/auth/me/');
   }
 
   // View Tasks
